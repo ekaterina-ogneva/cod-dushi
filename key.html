@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ключ к колоде | Код Души</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Подключаем те же шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Дополнительные стили специально для этой страницы */
+        .key-nav {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            margin-bottom: 60px;
+        }
+
+        .key-nav ul {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .key-nav a {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
+        }
+
+        .key-nav a:hover {
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .content-block {
+            max-width: 800px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+            scroll-margin-top: 100px; /* Отступ при прокрутке к якорю */
+        }
+
+        .content-block h2 {
+            font-family: var(--font-serif);
+            font-size: 32px;
+            color: var(--gold);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .content-block h2::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 1px;
+            background: var(--emerald);
+            margin-top: 10px;
+        }
+
+        .content-block p, .content-block li {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+
+        .content-block ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .content-block li {
+            margin-bottom: 10px;
+            list-style-type: disc;
+        }
+
+        .highlight {
+            color: var(--emerald);
+            font-weight: 400;
+        }
+
+        /* Кнопка "Наверх" */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s;
+            z-index: 900;
+            text-decoration: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--gold);
+            color: var(--bg-deep);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ШАПКА (Такая же, как на главной) -->
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo-link">
+                <div class="logo-mono">КД</div>
+                <div class="logo-text">КОД ДУШИ</div>
+            </a>
+            <nav class="desktop-nav">
+                <a href="key.html" style="color: var(--gold);">Ключ</a>
+                <a href="major.html">Старшие Арканы</a>
+                <a href="minor.html">Младшие Арканы</a>
+                <a href="spreads.html">Расклады</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- НАВИГАЦИЯ ПО СТРАНИЦЕ (ЯКОРЯ) -->
+<section id="top" style="text-align: center; padding: 100px 20px 40px; border-bottom: 1px solid rgba(197, 160, 89, 0.3); margin-bottom: 80px; background: rgba(0,0,0,0.2);">
+    <ul style="display: flex; justify-content: center; flex-wrap: wrap; gap: 25px; list-style: none; padding: 0; margin: 0;">
+        <li><a href="#sec1" style="font-family: 'Montserrat', sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #B0B0B0; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s ease;" onmouseover="this.style.color='#C5A059'; this.style.borderColor='#C5A059'" onmouseout="this.style.color='#B0B0B0'; this.style.borderColor='transparent'">Первое знакомство</a></li>
+        <li><a href="#sec2" style="font-family: 'Montserrat', sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #B0B0B0; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s ease;" onmouseover="this.style.color='#C5A059'; this.style.borderColor='#C5A059'" onmouseout="this.style.color='#B0B0B0'; this.style.borderColor='transparent'">Как перемешивать карты</a></li>
+        <li><a href="#sec3" style="font-family: 'Montserrat', sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #B0B0B0; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s ease;" onmouseover="this.style.color='#C5A059'; this.style.borderColor='#C5A059'" onmouseout="this.style.color='#B0B0B0'; this.style.borderColor='transparent'">Как задавать вопросы</a></li>
+        <li><a href="#sec4" style="font-family: 'Montserrat', sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #B0B0B0; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s ease;" onmouseover="this.style.color='#C5A059'; this.style.borderColor='#C5A059'" onmouseout="this.style.color='#B0B0B0'; this.style.borderColor='transparent'">Как тянуть карты</a></li>
+        <li><a href="#sec5" style="font-family: 'Montserrat', sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #B0B0B0; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s ease;" onmouseover="this.style.color='#C5A059'; this.style.borderColor='#C5A059'" onmouseout="this.style.color='#B0B0B0'; this.style.borderColor='transparent'">Как толковать</a></li>
+        <li><a href="#sec6" style="font-family: 'Montserrat', sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #B0B0B0; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s ease;" onmouseover="this.style.color='#C5A059'; this.style.borderColor='#C5A059'" onmouseout="this.style.color='#B0B0B0'; this.style.borderColor='transparent'">Уход</a></li>
+        <li><a href="#sec7" style="font-family: 'Montserrat', sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #B0B0B0; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.3s ease;" onmouseover="this.style.color='#C5A059'; this.style.borderColor='#C5A059'" onmouseout="this.style.color='#B0B0B0'; this.style.borderColor='transparent'">Этика</a></li>
+    </ul>
+</section>
+    <!-- КОНТЕНТ -->
+    <main class="container">
+        
+<article id="sec1" class="content-block">
+    <h2>Настройка канала</h2>
+    <p>Перед первым раскладом найдите тихое место, где вас никто не потревожит. Возьмите колоду в руки, почувствуйте её вес и текстуру карт.</p>
+    
+    <p>Выделите всего 5–10 минут на знакомство с колодой. Этого достаточно, чтобы настроиться.</p>
+    
+    <p>Поднесите колоду к лицу и сделайте лёгкий выдох на карты. Это древний способ «познакомиться»: вы оставляете свой след, своё дыхание, свою энергию. Карты «запоминают» вас. Это создаёт личную связь между вами и колодой.</p>
+
+    <p>Затем легко проведите пальцами по рубашке карт — оставьте свой «отпечаток». Это не магия в сказочном смысле. Это способ сказать картам: «Я здесь. Я готов(а) слушать».</p>
+    
+    <p>Сделайте три глубоких вдоха и выдоха. Представьте, как между вами и картами возникает тонкая нить света. Это ваш канал связи. Не торопитесь. Дайте себе время привыкнуть к энергии колоды.</p>
+</article>
+
+        <!-- Раздел 2 -->
+        <article id="sec2" class="content-block">
+            <h2>Ритуал тасовки</h2>
+            <p>Нет «правильного» способа мешать карты. Есть тот, который удобен именно вам.</p>
+            <ul>
+                <li><span class="highlight">Классическая тасовка:</span> Перемешивайте карты, как обычную колоду, сосредоточившись на вопросе.</li>
+                <li><span class="highlight">Веером:</span> Разложите карты веером на столе и проведите рукой над ними, выбирая те, что «притягивают» взгляд.</li>
+                <li><span class="highlight">Нарезка:</span> Положите колоду на стол и снимите часть карт сверху, затем соедините их обратно.</li>
+            </ul>
+            <p><em>Совет: Мешайте до тех пор, пока не почувствуете внутренний сигнал: «Пора». Это может быть ощущение лёгкости, тепла в руках или просто ясность в голове.</em></p>
+        </article>
+
+        <!-- Раздел 3 -->
+        <article id="sec3" class="content-block">
+            <h2>Искусство вопроса</h2>
+            <p>Карты отвечают на вопросы, но формулировка имеет значение.</p>
+            <p><strong>✅ Хорошие вопросы:</strong></p>
+            <ul>
+                <li>«Что мне важно понять в этой ситуации?»</li>
+                <li>«Какой урок несёт этот опыт?»</li>
+                <li>«Как я могу улучшить отношения с...?»</li>
+            </ul>
+            <p><strong>❌ Избегайте:</strong></p>
+            <ul>
+                <li>Вопросов «да/нет» (Таро работает с процессами).</li>
+                <li>Вопросов о других людях без их согласия.</li>
+                <li>Повторения одного и того же вопроса много раз подряд (это показывает недоверие к ответу).</li>
+            </ul>
+        </article>
+
+        <!-- Раздел 4 -->
+        <article id="sec4" class="content-block">
+            <h2>Момент выбора</h2>
+            <p>Когда вопрос сформулирован, перемешайте карты ещё раз. Закройте глаза, сделайте вдох. Откройте глаза и позвольте руке самой выбрать карту.</p>
+            <p>Не анализируйте, какая карта «красивее» или «страшнее». Доверьтесь импульсу.</p>
+            <p>Если вы делаете расклад из нескольких карт, выкладывайте их слева направо.</p>
+        </article>
+
+        <!-- Раздел 5 -->
+        <article id="sec5" class="content-block">
+            <h2>Язык символов</h2>
+            <p>Не спешите открывать значение. Сначала посмотрите на карту. Что вы видите в первую очередь? Какие цвета преобладают? Что чувствует персонаж? Какое настроение у картинки?</p>
+            <p><span class="highlight">Первое впечатление — самое точное.</span></p>
+            <p>Затем читайте описание. Сочетайте свои ощущения с текстом. Если карта говорит одно, а вы чувствуете другое — доверяйте себе. Доверяйте своим ощущениям больше, чем написанному. Карты лишь отражают то, что уже есть внутри вас.</p>
+        </article>
+
+        <!-- Раздел 6 -->
+        <article id="sec6" class="content-block">
+            <h2>Уход за колодой</h2>
+            <p>Карты впитывают энергию вопросов и эмоций. После интенсивной работы или если вы чувствуете «тяжесть» в колоде, очистите её:</p>
+            <ul>
+                <li><span class="highlight">Проветривание:</span> Оставьте карты на подоконнике на ночь (под лунный свет или утреннее солнце).</li>
+                <li><span class="highlight">Дым:</span> Пронесите карты над дымом благовоний (шалфей, пало санто).</li>
+                <li><span class="highlight">Кристаллы:</span> Положите рядом с аметистом или горным хрусталём на сутки.</li>
+            </ul>
+            <p>Храните карты в бархатном мешочке, в сухом месте. Не давайте другим людям брать вашу колоду без вашего разрешения.</p>
+        </article>
+
+        <!-- Раздел 7 -->
+        <article id="sec7" class="content-block">
+            <h2>Правила безопасности</h2>
+            <ul>
+                <li>Не гадайте другим людям без их явного согласия.</li>
+                <li>Не используйте карты для манипуляций или контроля.</li>
+                <li>Помните:Карты не предсказывают судьбу. Они показывают варианты, а выбор — всегда за тобой. Вы всегда можете изменить свой путь.</li>
+                <li>Доверяйте своей интуиции.</li>
+            </ul>
+        </article>
+
+    </main>
+
+    <!-- КНОПКА "НАВЕРХ" -->
+    <a href="#top" class="back-to-top" id="backToTopBtn">↑</a>
+
+    <footer class="footer" style="position: relative; margin-top: 50px;">
+        <p>&copy; 2026 Код Души. Все права защищены.</p>
+    </footer>
+
+    <!-- СКРИПТ ДЛЯ ПОЯВЛЕНИЯ КНОПКИ -->
+    <script>
+        const backToTopBtn = document.getElementById('backToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+</html>

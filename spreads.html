@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расклады | Код Души</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        .spread-scheme {
+    text-align: center;
+    margin: 25px 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.spread-scheme img {
+    max-width: 300px;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.spread-scheme .scheme-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    display: block;
+}
+        .warning-box {
+            background: rgba(197, 160, 89, 0.1);
+            border-left: 3px solid var(--gold);
+            padding: 30px;
+            margin-bottom: 60px;
+            border-radius: 5px;
+        }
+
+        .warning-box h2 {
+            font-family: var(--font-serif);
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .warning-box p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .warning-box ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .warning-box li {
+            margin-bottom: 10px;
+            color: var(--text-muted);
+        }
+
+        .sphere-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .sphere-nav a {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 12px 25px;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+
+        .sphere-nav a:hover {
+            color: var(--gold);
+            border-color: var(--gold);
+            background: rgba(197, 160, 89, 0.1);
+        }
+
+        .spread-section {
+            margin-bottom: 80px;
+            scroll-margin-top: 120px;
+        }
+
+        .spread-section h2 {
+            font-family: var(--font-serif);
+            font-size: 32px;
+            color: var(--gold);
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .spread-section h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 1px;
+            background: var(--emerald);
+            margin: 15px auto 0;
+        }
+
+        .spread-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+            transition: 0.3s;
+        }
+
+        .spread-card:hover {
+            border-color: var(--gold);
+            background: rgba(197, 160, 89, 0.05);
+        }
+
+        .spread-card h3 {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .spread-card .difficulty {
+            display: inline-block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 5px 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .difficulty.simple {
+            background: rgba(0, 255, 127, 0.2);
+            color: var(--emerald);
+        }
+
+        .difficulty.medium {
+            background: rgba(197, 160, 89, 0.2);
+            color: var(--gold);
+        }
+
+        .difficulty.deep {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        .spread-card p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+
+        .spread-card .when-to-use {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .spread-card .when-to-use strong {
+            color: var(--emerald);
+        }
+
+        .positions-list {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+
+        .positions-list li {
+            margin-bottom: 10px;
+            color: var(--text-muted);
+        }
+
+        .positions-list strong {
+            color: var(--gold);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s;
+            z-index: 900;
+            text-decoration: none;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--gold);
+            color: var(--bg-deep);
+        }
+
+        @media (max-width: 768px) {
+            .spread-card {
+                padding: 20px;
+            }
+            
+            .sphere-nav {
+                gap: 10px;
+            }
+            
+            .sphere-nav a {
+                font-size: 12px;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo-link">
+                <div class="logo-mono">КД</div>
+                <div class="logo-text">КОД ДУШИ</div>
+            </a>
+            <nav class="desktop-nav">
+                <a href="key.html">Ключ</a>
+                <a href="major.html">Старшие Арканы</a>
+                <a href="minor.html">Младшие Арканы</a>
+                <a href="spreads.html" style="color: var(--gold);">Расклады</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 120px;">
+        
+        <h1 style="text-align: center; font-family: var(--font-serif); font-size: 48px; color: var(--gold); margin-bottom: 40px;">Расклады</h1>
+
+        <!-- ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ -->
+        <div class="warning-box">
+            <h2>⚠️ Важно знать перед началом</h2>
+            <p><strong>Почему мы не гадаем на «будущее»?</strong></p>
+            <p>Таро не показывает застывшую картинку того, что обязательно случится. Карты отражают текущие энергии, ваши мысли и чувства прямо сейчас.</p>
+            <p>Если вы спросите: «Что будет со мной через год?», вы рискуете:</p>
+            <ul>
+                <li><strong>Запустить программу:</strong> Зафиксировать один вариант и перестать видеть другие возможности</li>
+                <li><strong>Потерять силу выбора:</strong> Начать ждать предсказанного вместо того, чтобы действовать</li>
+                <li><strong>Упустить шанс:</strong> Сфокусироваться на одном сценарии и не заметить знаки, которые ведут вас к лучшему</li>
+            </ul>
+            <p><strong>Как правильно задавать вопросы?</strong> Спрашивайте о настоящем и о своих действиях:</p>
+            <ul>
+                <li>✅ «Что мне важно понять в этой ситуации?»</li>
+                <li>✅ «Какие энергии сейчас влияют на мои отношения?»</li>
+                <li>✅ «Что мешает мне двигаться вперёд?»</li>
+                <li>✅ «Как мне лучше поступить?»</li>
+            </ul>
+            <p style="margin-bottom: 0;"><em>Будущее создаёте вы своими шагами сегодня. Карты — это фонарик, который подсвечивает путь под ногами, а не кристалл, показывающий конец дороги.</em></p>
+        </div>
+
+        <!-- НАВИГАЦИЯ ПО СФЕРАМ -->
+        <div class="sphere-nav" id="top">
+            <a href="#love">💖 Любовь и отношения</a>
+            <a href="#money">💰 Деньги и карьера</a>
+            <a href="#self">🌱 Самопознание</a>
+            <a href="#choice">🛤️ Выбор пути</a>
+        </div>
+
+        <!-- 💖 ЛЮБОВЬ И ОТНОШЕНИЯ -->
+        <section id="love" class="spread-section">
+            <h2>💖 Любовь и отношения</h2>
+
+            <!-- Простой: Три аспекта связи -->
+            <div class="spread-card">
+                <h3>🔹 «Три аспекта связи» (3 карты)</h3>
+                <span class="difficulty simple">Простой</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Хотите быстро понять, что происходит между вами и партнёром прямо сейчас. Чувствуете дисбаланс, но не знаете, где именно.
+                </div>
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-simple.png" alt="Схема: 3 карты в ряд">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Вы:</strong> Ваша энергия в этих отношениях. Что вы даёте? Как себя чувствуете?</li>
+                    <li><strong>Партнёр:</strong> Его энергия. Что он приносит в союз?</li>
+                    <li><strong>Связь:</strong> То, что происходит между вами. Где тепло, а где напряжение?</li>
+                </ol>
+                <p><strong>Как читать:</strong> Посмотрите на каждую карту отдельно. Потом соедините их в историю. Если в позиции «Связь» выпала тяжёлая карта — возможно, нужно честно поговорить. Если лёгкая и светлая — всё идёт гармонично.</p>
+            </div>
+
+            <!-- Средний: Путь сердца -->
+            <div class="spread-card">
+                <h3>🔸 «Путь сердца» (5 карт)</h3>
+                <span class="difficulty medium">Средний</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Отношения зашли в тупик. Хотите понять скрытые причины конфликтов и увидеть выход.
+                </div>
+              
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-cross.png" alt="Схема: крест из 5 карт">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Суть связи:</strong> Зачем вы встретились? Какой главный урок несёт этот союз?</li>
+                    <li><strong>Ваши страхи:</strong> Что вы не признаёте даже себе? Что мешает вам открыться?</li>
+                    <li><strong>Текущий вызов:</strong> Что нужно решить прямо сейчас?</li>
+                    <li><strong>Скрытые мотивы партнёра:</strong> О чём он молчит? Чего боится или хочет?</li>
+                    <li><strong>Возможный итог:</strong> Куда движутся отношения, если ничего не менять?</li>
+                </ol>
+                <p><strong>Как читать:</strong> Начните с центра (позиция 3) — это точка, где вы находитесь сейчас. Затем посмотрите на позиции 2 и 4: что мешает каждому из вас? Позиция 1 покажет глубину вашей встречи. Позиция 5 — это не приговор, а подсказка: что будет, если оставить всё как есть. Соберите это в общую картину и спросите себя: «Что я могу изменить уже сегодня?»</p>
+            </div>
+
+            <!-- Глубокий: Алхимия любви -->
+            <div class="spread-card">
+                <h3>🔺 «Алхимия любви» (7 карт)</h3>
+                <span class="difficulty deep">Глубокий</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Серьёзный кризис. Хотите разобраться в корнях проблемы, понять кармическую связь и найти истинный выход.
+                </div>
+                
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-deep.png" alt="Схема: 7 карт">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Прошлое:</strong> Что привело вас к этой встрече? Какой багаж вы несёте?</li>
+                    <li><strong>Ваша теневая сторона:</strong> Какие ваши черты мешают отношениям?</li>
+                    <li><strong>Теневая сторона партнёра:</strong> Его непроработанные части</li>
+                    <li><strong>Сейчас:</strong> Энергия ваших отношений в данный момент</li>
+                    <li><strong>Ваш урок:</strong> Что вы должны усвоить через эту связь?</li>
+                    <li><strong>Его урок:</strong> Чему учится он?</li>
+                    <li><strong>Высший смысл:</strong> Зачем вы встретились на глубоком уровне?</li>
+                </ol>
+                <p><strong>Как читать:</strong> Не торопитесь. Разберите верхнюю часть (1-2-3): что было и что мешает. Затем середину (4): где вы сейчас. Потом низ (5-6-7): чему учитесь и к чему можете прийти. Не ищите виноватых. Посмотрите, как карты перекликаются. Например, если в позициях 2 и 3 выпали похожие карты — вы зеркалите друг друга. Позиция 7 покажет направление, если вы оба готовы работать над связью.</p>
+            </div>
+        </section>
+
+        <!-- 💰 ДЕНЬГИ И КАРЬЕРА -->
+        <section id="money" class="spread-section">
+            <h2>💰 Деньги и карьера</h2>
+
+            <!-- Простой: Три потока -->
+            <div class="spread-card">
+                <h3>🔹 «Три потока» (3 карты)</h3>
+                <span class="difficulty simple">Простой</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Финансовая нестабильность. Не понимаете, куда уходят деньги, или хотите улучшить денежный поток.
+                </div>
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-simple.png" alt="Схема: 3 карты в ряд">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Приход:</strong> Откуда приходят ресурсы? Ваши источники силы</li>
+                    <li><strong>Расход:</strong> Куда утекают деньги? Ваши «дыры» в бюджете или энергии</li>
+                    <li><strong>Потенциал:</strong> Как можно улучшить ситуацию? Совет карт</li>
+                </ol>
+                <p><strong>Как читать:</strong> Обратите внимание на масти. Пентакли говорят о реальных деньгах, Жезлы — о действиях, Кубки — об эмоциях (тратите ли вы на настроение?), Мечи — о страхах или планах.</p>
+            </div>
+
+            <!-- Средний: Карьерный компас -->
+            <div class="spread-card">
+                <h3>🔸 «Карьерный компас» (5 карт)</h3>
+                <span class="difficulty medium">Средний</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Неудовлетворённость работой. Стоите перед выбором направления или хотите понять свой профессиональный рост.
+                </div>
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-cross.png" alt="Схема: крест из 5 карт">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Ваша сила:</strong> Ваши таланты и навыки, которые ценятся</li>
+                    <li><strong>Препятствие:</strong> Что мешает росту? Внешние факторы или внутренние блоки?</li>
+                    <li><strong>Текущая ситуация:</strong> Где вы находитесь сейчас?</li>
+                    <li><strong>Возможность:</strong> Что может открыться, если сделать шаг?</li>
+                    <li><strong>Совет:</strong> Как действовать прямо сейчас?</li>
+                </ol>
+                <p><strong>Как читать:</strong> Начните с позиции 3 (где вы), затем 1 (сила), 2 (препятствие), 4 (возможность), 5 (совет). Если в позиции 2 выпал Старший Аркан — препятствие серьёзное, требует работы над собой.</p>
+            </div>
+
+            <!-- Глубокий: Древо изобилия -->
+            <div class="spread-card">
+                <h3>🔺 «Древо изобилия» (7 карт)</h3>
+                <span class="difficulty deep">Глубокий</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Системные финансовые проблемы. Хотите построить устойчивое изобилие и разобраться с убеждениями о деньгах.
+                </div>
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-deep.png" alt="Схема: 7 карт">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Корни:</strong> Ваши глубинные убеждения о деньгах (из детства или рода)</li>
+                    <li><strong>Ствол:</strong> Что поддерживает вашу стабильность?</li>
+                    <li><strong>Вредители:</strong> Что разрушает изобилие? Страхи, зависть, лень?</li>
+                    <li><strong>Плоды:</strong> Что вы уже имеете? (Часто мы этого не замечаем)</li>
+                    <li><strong>Солнце:</strong> Что питает ваш рост? Поддержка, знания, удача?</li>
+                    <li><strong>Вода:</strong> Что нужно делать? Действия, шаги, обучение</li>
+                    <li><strong>Будущий урожай:</strong> Потенциал, если вы будете работать над собой</li>
+                </ol>
+                <p><strong>Как читать:</strong> Работайте снизу вверх. Сначала корни (1) — если там сложные карты, нужна работа с мышлением. Затем ствол (2) и вредители (3). Потом посмотрите на плоды (4) — поблагодарите за них. И наконец, ресурсы (5-6) и потенциал (7).</p>
+            </div>
+        </section>
+
+        <!-- 🌱 САМОПОЗНАНИЕ И РАЗВИТИЕ -->
+        <section id="self" class="spread-section">
+            <h2>🌱 Самопознание и развитие</h2>
+
+            <!-- Простой: Зеркало души -->
+            <div class="spread-card">
+                <h3>🔹 «Зеркало души» (3 карты)</h3>
+                <span class="difficulty simple">Простой</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Чувствуете потерю себя. Хотите понять своё текущее состояние и то, что скрыто от глаз.
+                </div>
+              
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-simple.png" alt="Схема: 3 карты в ряд">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Ваша суть:</strong> Кто вы есть на самом деле? Ваша внутренняя сила</li>
+                    <li><strong>Маска:</strong> Что вы показываете миру? Как вас видят другие?</li>
+                    <li><strong>Тень:</strong> Что вы скрываете даже от себя? Страхи или подавленные желания</li>
+                </ol>
+                <p><strong>Как читать:</strong> Будьте честны. Часто позиция 2 (маска) и 3 (тень) сильно отличаются. Посмотрите, насколько ваша внешняя жизнь соответствует внутренней сути.</p>
+            </div>
+
+            <!-- Средний: Путь героя -->
+            <div class="spread-card">
+                <h3>🔸 «Путь героя» (5 карт)</h3>
+                <span class="difficulty medium">Средний</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Чувствуете застой. Хотите понять, какой урок вы проходите сейчас и куда двигаться дальше.
+                </div>
+                
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-cross.png" alt="Схема: крест из 5 карт">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Где вы были:</strong> Пройденный этап. Какой опыт вы получили?</li>
+                    <li><strong>Где вы сейчас:</strong> Ваша текущая точка</li>
+                    <li><strong>Ваш ресурс:</strong> Что помогает вам двигаться дальше?</li>
+                    <li><strong>Ваш вызов:</strong> Что нужно преодолеть?</li>
+                    <li><strong>Куда идёте:</strong> Следующий этап вашего пути</li>
+                </ol>
+                <p><strong>Как читать:</strong> Двигайтесь слева направо: 1 → 2 → 3 → 4 → 5. Обратите внимание на Старшие Арканы — они указывают на важные жизненные уроки.</p>
+            </div>
+
+            <!-- Глубокий: Код души -->
+            <div class="spread-card">
+                <h3>🔺 «Код души» (7 карт)</h3>
+                <span class="difficulty deep">Глубокий</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Кризис идентичности. Хотите понять своё предназначение и соединить разрозненные части личности.
+                </div>
+               
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-deep.png" alt="Схема: 7 карт">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Ваша душа:</strong> Ваша истинная природа, дары от рождения</li>
+                    <li><strong>Ваша личность:</strong> То, что сформировалось под влиянием общества и воспитания</li>
+                    <li><strong>Конфликт:</strong> Где душа и личность расходятся?</li>
+                    <li><strong>Интеграция:</strong> Как соединить эти противоречия?</li>
+                    <li><strong>Ваша миссия:</strong> Зачем вы пришли в этот мир?</li>
+                    <li><strong>Препятствия:</strong> Что мешает реализовать миссию?</li>
+                    <li><strong>Потенциал:</strong> Кем вы можете стать, если примете себя целиком?</li>
+                </ol>
+                <p><strong>Как читать:</strong> Начните с позиции 1 (душа) и 2 (личность) — посмотрите на контраст. Затем 3 (конфликт) и 4 (как его разрешить). Завершите 5-7 (миссия, препятствия, потенциал). Это расклад для глубокой внутренней работы.</p>
+            </div>
+        </section>
+
+        <!-- 🛤️ ВЫБОР ПУТИ -->
+        <section id="choice" class="spread-section">
+            <h2>🛤️ Выбор пути</h2>
+
+            <!-- Простой: Два пути -->
+            <div class="spread-card">
+                <h3>🔹 «Два пути» (3 карты)</h3>
+                <span class="difficulty simple">Простой</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Стоите перед выбором. Не понимаете, какой вариант лучше. Нужна быстрая диагностика.
+                </div>
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-simple.png" alt="Схема: 3 карты в ряд">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Вариант А:</strong> Энергия первого выбора</li>
+                    <li><strong>Вариант Б:</strong> Энергия второго выбора</li>
+                    <li><strong>Совет:</strong> Как принять решение? На что опереться?</li>
+                </ol>
+                <p><strong>Как читать:</strong> Сравните позиции 1 и 2. Где больше ресурсов? Где меньше блоков? Позиция 3 подскажет, чем руководствоваться: разумом, сердцем или действием.</p>
+            </div>
+
+            <!-- Средний: Перекрёсток -->
+            <div class="spread-card">
+                <h3>🔸 «Перекрёсток» (5 карт)</h3>
+                <span class="difficulty medium">Средний</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Стоите перед сложным выбором. Хотите увидеть, что несёт каждый вариант.
+                </div>
+               
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-alternative.png" alt="Схема: альтернативная 5 карт">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Суть выбора:</strong> Почему вы вообще стоите перед этим решением?</li>
+                    <li><strong>Вариант А: Что получите:</strong> Плюсы, возможности, выгоды</li>
+                    <li><strong>Вариант А: Чем заплатите:</strong> Минусы, риски, цена</li>
+                    <li><strong>Вариант Б: Что получите:</strong> Плюсы, возможности, выгоды</li>
+                    <li><strong>Вариант Б: Чем заплатите:</strong> Минусы, риски, цена</li>
+                </ol>
+                <p><strong>Как делать:</strong></p>
+                <ol class="positions-list">
+                    <li>Сформулируйте два варианта (А и Б)</li>
+                    <li>Настройтесь на колоду: подышите, возьмите карты в руки</li>
+                    <li>Задайте вопрос: «Что меня ждёт, если я выберу А? А если Б?»</li>
+                    <li>Выложите 5 карт по схеме</li>
+                    <li>Не торопитесь. Посмотрите на карты спокойно</li>
+                </ol>
+                <p><strong>Как читать:</strong> Начните с позиции 1 — поймите, почему этот выбор возник. Сравните пару 2-3 (Вариант А): стоит ли результат той цены? Сравните пару 4-5 (Вариант Б) по тому же принципу. Спросите себя: «Где баланс между результатом и ценой для меня более приемлем?»</p>
+            </div>
+
+            <!-- Глубокий: Лабиринт судьбы -->
+            <div class="spread-card">
+                <h3>🔺 «Лабиринт судьбы» (7 карт)</h3>
+                <span class="difficulty deep">Глубокий</span>
+                <div class="when-to-use">
+                    <strong>Когда использовать:</strong> Жизненно важный выбор. Хотите увидеть скрытые последствия и кармические уроки.
+                </div>
+<div class="spread-scheme">
+    <span class="scheme-label">📋 Схема расклада</span>
+    <img src="images/spreads/scheme-deep.png" alt="Схема: 7 карт">
+</div>
+                <p><strong>Значение позиций:</strong></p>
+                <ol class="positions-list">
+                    <li><strong>Кармический урок:</strong> Почему вы столкнулись с этим выбором?</li>
+                    <li><strong>Вариант А: Поверхность:</strong> Что вы увидите сразу?</li>
+                    <li><strong>Вариант А: Глубина:</strong> Скрытые последствия, которые проявятся позже</li>
+                    <li><strong>Вариант Б: Поверхность:</strong> Что вы увидите сразу?</li>
+                    <li><strong>Вариант Б: Глубина:</strong> Скрытые последствия</li>
+                    <li><strong>Третий путь:</strong> Возможность, которую вы не замечаете</li>
+                    <li><strong>Высший выбор:</strong> Что выберет ваша душа (а не эго)?</li>
+                </ol>
+                <p><strong>Как читать:</strong> Начните с урока (1). Затем глубоко проработайте варианты: сравните поверхность и глубину для А (2-3) и для Б (4-5). Позиция 6 может открыть неожиданный третий вариант. Позиция 7 — это ответ вашей интуиции. Доверьтесь ему.</p>
+            </div>
+        </section>
+
+        <!-- 📝 ОБЩИЕ СОВЕТЫ -->
+        <section class="spread-section">
+            <h2>📝 Общие советы</h2>
+            <div class="spread-card">
+                <ul class="positions-list">
+                    <li><strong>Настройка:</strong> Перед любым раскладом сделайте паузу. Подышите. Почувствуйте колоду</li>
+                    <li><strong>Вопрос:</strong> Сформулируйте вопрос чётко. Лучше спрашивать «Как мне...?» или «Что мне важно понять?», а не «Что будет?»</li>
+                    <li><strong>Доверие:</strong> Первое впечатление от карты часто важнее, чем прочитанное значение</li>
+                    <li><strong>Действие:</strong> Карты не меняют жизнь сами. Они дают подсказку. Изменения происходят, когда вы делаете шаги в реальности</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <a href="#top" class="back-to-top" id="backToTopBtn">↑</a>
+
+    <footer class="footer" style="position: relative; margin-top: 50px;">
+        <p>&copy; 2026 Код Души. Все права защищены.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const backToTopBtn = document.getElementById('backToTopBtn');
+            
+            if (backToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        backToTopBtn.classList.add('visible');
+                    } else {
+                        backToTopBtn.classList.remove('visible');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
